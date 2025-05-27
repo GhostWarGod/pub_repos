@@ -2168,9 +2168,9 @@ const home_bg6_namespaceObject = __webpack_require__.p + "35df068b984e01f86be5.j
 ;// CONCATENATED MODULE: ./public/images/home_bg6_m.jpg
 const home_bg6_m_namespaceObject = __webpack_require__.p + "c707ebc59ad0f7df2602.jpg";
 ;// CONCATENATED MODULE: ./public/images/partner.png
-const partner_namespaceObject = __webpack_require__.p + "72348cdcb8d71c182262.png";
+const partner_namespaceObject = __webpack_require__.p + "c8c691652b92f1026224.png";
 ;// CONCATENATED MODULE: ./public/images/partner_m.png
-const partner_m_namespaceObject = __webpack_require__.p + "7a02a9a06300a5dbf1be.png";
+const partner_m_namespaceObject = __webpack_require__.p + "8371970bc7c9935eb9b7.png";
 ;// CONCATENATED MODULE: ./src/components/index/comm6.jsx
 
 var comm6_templateObject;
@@ -2530,7 +2530,7 @@ function comm8_taggedTemplateLiteralLoose(strings, raw) { if (!raw) { raw = stri
 
 
 
-var comm8_CustomStyle = styled_components_browser_esm/* default */.ZP.div(comm8_templateObject || (comm8_templateObject = comm8_taggedTemplateLiteralLoose(["\n    background: #14171F;\n\n\t.comm8_flex {\n\t\tdisplay: flex;\n\t\twidth: 1100px;\n\t\tmargin: auto;\n\t\tpadding: 35px 0 35px 100px;\n\t}\n\t.comm8_conter {\n\t\twidth: 25%;\n\t\tspan {\n\t\t\tdisplay: block;\n\t\t\tfont-size: 16px;\n\t\t\tcolor: #FFCC00;\n\t\t\tline-height: 20px;\n\t\t\tfont-weight: bold;\n\t\t\tmargin-bottom: 30px;\n\t\t}\n\t\tem {\n\t\t\tdisplay: block;\n\t\t\tfont-size: 12px;\n\t\t\tcolor: #fff;\n\t\t\tfont-weight: 500;\n\t\t\tline-height: 16px;\n\t\t\tmargin-bottom: 20px;\n\t\t}\n\t\ta {\n\t\t\tdisplay: block;\n\t\t\tfont-size: 12px;\n\t\t\tcolor: #fff;\n\t\t\tfont-weight: 500;\n\t\t\tline-height: 16px;\n\t\t\tmargin-bottom: 20px;\n\t\t\t&:hover {\n\t\t\t\tcolor: #FFCC00;\n\t\t\t}\n\t\t}\n\t\ti {\n\t\t\tdisplay: block;\n\t\t}\n\t\timg {\n\t\t\tmargin-right: 20px;\n\t\t}\n\t}\n\t.comm8_reserved {\n\t\theight: 60px;\n\t\tline-height: 60px;\n\t\tborder-top: 1px solid #343945;\n\t\ttext-align: center;\n\t\tfont-size: 12px;\n\t}\n\n\n\t@media (max-width: 750px) {\n\t\tposition: relative;\n\t\twidth: 100%;\n\t\theight: 100%;\n\t\tdisplay: flex;\n\t\tflex-direction: column;\n\t\tjustify-content: center;\n\t\talign-items: center;\n\t\ttext-align: center;\n\n\t\t.comm8_flex {\n\t\t    display: block;\n\t\t\twidth: 100%;\n\t\t\tpadding: 0px;\n\t\t\tmargin: 0px;\n\t\t\ttext-align: center;\n\t\t}\n\t\t.comm8_conter {\n\t\t\twidth: 100%;\n\t\t\tmargin-bottom: 40px;\n\t\t\tspan {\n\t\t\t    margin-bottom: 10px;\n\t\t\t}\n\t\t\tem {\n\t\t\t    margin-bottom: 5px;\n\t\t\t}\n\t\t\ta {\n\t\t\t    margin-bottom: 5px;\n\t\t\t}\n\t\t\timg {\n\t\t\t\twidth: 30px;\n\t\t\t}\n\t\t\t:last-child {\n\t\t\t\tmargin-bottom: 0;\n\t\t\t}\n\t\t}\n\t\t.comm8_reserved {\n\t\t\tdisplay: none;\n\t\t}\n\t}\n"])));
+var comm8_CustomStyle = styled_components_browser_esm/* default */.ZP.div(comm8_templateObject || (comm8_templateObject = comm8_taggedTemplateLiteralLoose(["\n    background: #14171F;\n\n\t.comm8_flex {\n\t\tdisplay: flex;\n\t\twidth: 1100px;\n\t\tmargin: auto;\n\t\tpadding: 35px 0 35px 100px;\n\t}\n\t.comm8_conter {\n\t\twidth: 25%;\n\t\tspan {\n\t\t\tdisplay: block;\n\t\t\tfont-size: 16px;\n\t\t\tcolor: #FFCC00;\n\t\t\tline-height: 20px;\n\t\t\tfont-weight: bold;\n\t\t\tmargin-bottom: 30px;\n\t\t}\n\t\tem {\n\t\t\tdisplay: block;\n\t\t\tfont-size: 12px;\n\t\t\tcolor: #fff;\n\t\t\tfont-weight: 500;\n\t\t\tline-height: 16px;\n\t\t\tmargin-bottom: 20px;\n\t\t}\n\t\ta {\n\t\t\tdisplay: block;\n\t\t\tfont-size: 12px;\n\t\t\tcolor: #fff;\n\t\t\tfont-weight: 500;\n\t\t\tline-height: 16px;\n\t\t\tmargin-bottom: 20px;\n\t\t\t&:hover {\n\t\t\t\tcolor: #FFCC00;\n\t\t\t}\n\t\t}\n\t\ti {\n\t\t\tdisplay: flex;\n\t\t}\n\t\timg {\n\t\t\tmargin-right: 20px;\n\t\t}\n\t}\n\t.comm8_reserved {\n\t\theight: 60px;\n\t\tline-height: 60px;\n\t\tborder-top: 1px solid #343945;\n\t\ttext-align: center;\n\t\tfont-size: 12px;\n\t}\n\n\n\t@media (max-width: 750px) {\n\t\tposition: relative;\n\t\twidth: 100%;\n\t\theight: 100%;\n\t\tdisplay: flex;\n\t\tflex-direction: column;\n\t\tjustify-content: center;\n\t\talign-items: center;\n\t\ttext-align: center;\n\n\t\t.comm8_flex {\n\t\t    display: block;\n\t\t\twidth: 100%;\n\t\t\tpadding: 0px;\n\t\t\tmargin: 0px;\n\t\t\ttext-align: center;\n\t\t}\n\t\t.comm8_conter {\n\t\t\twidth: 100%;\n\t\t\tmargin-bottom: 40px;\n\t\t\tspan {\n\t\t\t    margin-bottom: 10px;\n\t\t\t}\n\t\t\tem {\n\t\t\t    margin-bottom: 5px;\n\t\t\t}\n\t\t\ta {\n\t\t\t    margin-bottom: 5px;\n\t\t\t}\n\t\t\timg {\n\t\t\t\twidth: 30px;\n\t\t\t}\n\t\t\t:last-child {\n\t\t\t\tmargin-bottom: 0;\n\t\t\t}\n\t\t}\n\t\t.comm8_reserved {\n\t\t\tdisplay: none;\n\t\t}\n\t}\n"])));
 function Comm8() {
   var _useTranslation = (0,dist_es/* useTranslation */.$G)(),
     i18n = _useTranslation.i18n,
@@ -2569,16 +2569,25 @@ function Comm8() {
     target: "_blank"
   }, t("Privacy Policy"))), /*#__PURE__*/react.createElement("em", null, t("Career")), /*#__PURE__*/react.createElement("em", null, t("App Download"))), /*#__PURE__*/react.createElement("div", {
     className: "comm8_conter"
-  }, /*#__PURE__*/react.createElement("span", null, t("Follow us")), /*#__PURE__*/react.createElement("i", null, /*#__PURE__*/react.createElement("img", {
+  }, /*#__PURE__*/react.createElement("span", null, t("Follow us")), /*#__PURE__*/react.createElement("i", null, /*#__PURE__*/react.createElement(dist/* NavLink */.OL, {
+    to: "https://t.me/cryptoarenaio",
+    target: "_blank"
+  }, /*#__PURE__*/react.createElement("img", {
     src: footer_1_namespaceObject,
     alt: ""
-  }), /*#__PURE__*/react.createElement("img", {
+  })), /*#__PURE__*/react.createElement(dist/* NavLink */.OL, {
+    to: "https://x.com/cryptoarenax",
+    target: "_blank"
+  }, /*#__PURE__*/react.createElement("img", {
     src: footer_2_namespaceObject,
     alt: ""
-  }), /*#__PURE__*/react.createElement("img", {
+  })), /*#__PURE__*/react.createElement(dist/* NavLink */.OL, {
+    to: "https://github.com/CryptoArenaIO",
+    target: "_blank"
+  }, /*#__PURE__*/react.createElement("img", {
     src: footer_3_namespaceObject,
     alt: ""
-  })))), /*#__PURE__*/react.createElement("div", {
+  }))))), /*#__PURE__*/react.createElement("div", {
     className: "comm8_reserved"
   }, "\xA9 2025 CryptoArena. All rights reserved."));
 }
@@ -2600,7 +2609,7 @@ function comm8M_taggedTemplateLiteralLoose(strings, raw) { if (!raw) { raw = str
 
 
 
-var comm8M_CustomStyle = styled_components_browser_esm/* default */.ZP.div(comm8M_templateObject || (comm8M_templateObject = comm8M_taggedTemplateLiteralLoose(["\n\t.comm8_flex {\n\t\tdisplay: block;\n\t\twidth: 100%;\n\t\tpadding: 0px;\n\t\tmargin: 0px;\n\t}\n\t.comm8_conter {\n\t\twidth: 100%;\n\t\tmargin-bottom: 40px;\n\t\tspan {\n\t\t\tdisplay: block;\n\t\t\tfont-size: 16px;\n\t\t\tcolor: #FFCC00;\n\t\t\tline-height: 20px;\n\t\t\tfont-weight: bold;\n\t\t\tmargin-bottom: 20px;\n\t\t}\n\t\tem {\n\t\t\tdisplay: block;\n\t\t\tfont-size: 14px;\n\t\t\tcolor: #fff;\n\t\t\tfont-weight: 500;\n\t\t\tline-height: 16px;\n\t\t\tmargin-bottom: 15px;\n\t\t\topacity: .8;\n\t\t}\n\t\ta {\n\t\t\tdisplay: block;\n\t\t\tfont-size: 14px;\n\t\t\tcolor: #fff;\n\t\t\tfont-weight: 500;\n\t\t\tline-height: 16px;\n\t\t\tmargin-bottom: 5px;\n\t\t\t&:hover {\n\t\t\t\tcolor: #FFCC00;\n\t\t\t}\n\t\t}\n\t\ti {\n\t\t\tdisplay: block;\n\t\t}\n\t\timg {\n\t\t\twidth: 30px;\n\t\t\tmargin-right: 20px;\n\t\t}\n\t\t:last-child {\n\t\t\tmargin-bottom: 0;\n\t\t}\n\t}\n\t.comm8_reserved {\n\t\theight: 60px;\n\t\tline-height: 60px;\n\t\tborder-top: 1px solid #343945;\n\t\tfont-size: 12px;\n\t}\n"])));
+var comm8M_CustomStyle = styled_components_browser_esm/* default */.ZP.div(comm8M_templateObject || (comm8M_templateObject = comm8M_taggedTemplateLiteralLoose(["\n\t.comm8_flex {\n\t\tdisplay: block;\n\t\twidth: 100%;\n\t\tpadding: 0px;\n\t\tmargin: 0px;\n\t}\n\t.comm8_conter {\n\t\twidth: 100%;\n\t\tmargin-bottom: 40px;\n\t\tspan {\n\t\t\tdisplay: block;\n\t\t\tfont-size: 16px;\n\t\t\tcolor: #FFCC00;\n\t\t\tline-height: 20px;\n\t\t\tfont-weight: bold;\n\t\t\tmargin-bottom: 20px;\n\t\t}\n\t\tem {\n\t\t\tdisplay: block;\n\t\t\tfont-size: 14px;\n\t\t\tcolor: #fff;\n\t\t\tfont-weight: 500;\n\t\t\tline-height: 16px;\n\t\t\tmargin-bottom: 15px;\n\t\t\topacity: .8;\n\t\t}\n\t\ta {\n\t\t\tdisplay: block;\n\t\t\tfont-size: 14px;\n\t\t\tcolor: #fff;\n\t\t\tfont-weight: 500;\n\t\t\tline-height: 16px;\n\t\t\tmargin-bottom: 5px;\n\t\t\t&:hover {\n\t\t\t\tcolor: #FFCC00;\n\t\t\t}\n\t\t}\n\t\ti {\n\t\t\tdisplay: flex;\n\t\t}\n\t\timg {\n\t\t\twidth: 30px;\n\t\t\tmargin-right: 20px;\n\t\t}\n\t\t:last-child {\n\t\t\tmargin-bottom: 0;\n\t\t}\n\t}\n\t.comm8_reserved {\n\t\theight: 60px;\n\t\tline-height: 60px;\n\t\tborder-top: 1px solid #343945;\n\t\tfont-size: 12px;\n\t}\n"])));
 function Comm8M() {
   var _useTranslation = (0,dist_es/* useTranslation */.$G)(),
     i18n = _useTranslation.i18n,
@@ -2676,16 +2685,25 @@ function Comm8M() {
     target: "_blank"
   }, t("Privacy Policy"))), /*#__PURE__*/react.createElement("em", null, t("Career")), /*#__PURE__*/react.createElement("em", null, t("App Download"))), /*#__PURE__*/react.createElement("div", {
     className: "comm8_conter"
-  }, /*#__PURE__*/react.createElement("span", null, t("Follow us")), /*#__PURE__*/react.createElement("i", null, /*#__PURE__*/react.createElement("img", {
+  }, /*#__PURE__*/react.createElement("span", null, t("Follow us")), /*#__PURE__*/react.createElement("i", null, /*#__PURE__*/react.createElement(dist/* NavLink */.OL, {
+    to: "https://t.me/cryptoarenaio",
+    target: "_blank"
+  }, /*#__PURE__*/react.createElement("img", {
     src: footer_1_namespaceObject,
     alt: ""
-  }), /*#__PURE__*/react.createElement("img", {
+  })), /*#__PURE__*/react.createElement(dist/* NavLink */.OL, {
+    to: "https://x.com/cryptoarenax",
+    target: "_blank"
+  }, /*#__PURE__*/react.createElement("img", {
     src: footer_2_namespaceObject,
     alt: ""
-  }), /*#__PURE__*/react.createElement("img", {
+  })), /*#__PURE__*/react.createElement(dist/* NavLink */.OL, {
+    to: "https://github.com/CryptoArenaIO",
+    target: "_blank"
+  }, /*#__PURE__*/react.createElement("img", {
     src: footer_3_namespaceObject,
     alt: ""
-  }))), /*#__PURE__*/react.createElement("div", {
+  })))), /*#__PURE__*/react.createElement("div", {
     className: "comm8_reserved"
   }, "\xA9 2025 CryptoArena. All rights reserved.")))));
 }
