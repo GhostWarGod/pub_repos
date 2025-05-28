@@ -1,0 +1,233 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>电报钱包测试</title>
+    <meta charset='utf-8' />
+    <meta name='viewport' content='width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no' />
+    <style>
+        body {
+            font-family: 'Arial', sans-serif;
+            margin: 0;
+            padding: 0;
+            background: linear-gradient(to bottom, #133570, #1179b5);
+            color: #fff;
+            height: 100vh;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+        }
+        
+        .container {
+            background-color: rgba(0, 0, 0, 0.3);
+            border-radius: 10px;
+            padding: 20px;
+            width: 80%;
+            max-width: 500px;
+            box-shadow: 0 0 20px rgba(0, 0, 0, 0.2);
+        }
+        
+        h1 {
+            text-align: center;
+            margin-bottom: 30px;
+        }
+        
+        .button-container {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+        }
+        
+        button {
+            padding: 12px 20px;
+            border: none;
+            border-radius: 5px;
+            font-weight: bold;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+        
+        #connect-wallet-btn {
+            background: linear-gradient(to right, #00c6ff, #02eff4);
+            color: #213343;
+        }
+        
+        #sign-message-btn {
+            background: linear-gradient(to right, #ffc119, #ffe651);
+            color: #433721;
+            display: none;
+        }
+        
+        #payment-btn {
+            background: linear-gradient(to right, #ff5e62, #ff9966);
+            color: #433721;
+            display: none;
+        }
+        
+        button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+        }
+        
+        #wallet-info {
+            margin-top: 20px;
+            background-color: rgba(0, 0, 0, 0.2);
+            padding: 10px;
+            border-radius: 5px;
+            font-size: 14px;
+            display: none;
+        }
+        
+        .signature-result {
+            margin-top: 20px;
+            background-color: rgba(0, 0, 0, 0.2);
+            padding: 10px;
+            border-radius: 5px;
+            font-size: 14px;
+            display: none;
+            max-height: 200px;
+            overflow-y: auto;
+            white-space: pre-wrap;
+            word-break: break-all;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>电报钱包测试</h1>
+        
+        <div class="button-container">
+            <button id="connect-wallet-btn">连接钱包</button>
+            <button id="sign-message-btn">登录签名</button>
+            <button id="payment-btn">发起支付</button>
+        </div>
+        
+        <div id="wallet-info"></div>
+        <pre id="signature-result" class="signature-result"></pre>
+    </div>
+    
+    <!-- 引入TON Connect相关脚本 -->
+    <script type="text/javascript" src="https://unpkg.com/@tonconnect/ui@latest/dist/tonconnect-ui.min.js"></script>
+    <script type="text/javascript" src="https://unpkg.com/ton-core@latest/dist/index.min.js"></script>
+    
+    <script type="text/javascript">
+        document.addEventListener('DOMContentLoaded', function() {
+            // 创建TonConnectUI实例
+            const tonConnectUI = new TonConnectUI.TonConnectUI({
+                manifestUrl: 'tonconnect-manifest.json',
+            });
+            
+            let isConnected = false;
+            let userAddress = '';
+            
+            // 获取DOM元素
+            const connectBtn = document.getElementById('connect-wallet-btn');
+            const signBtn = document.getElementById('sign-message-btn');
+            const paymentBtn = document.getElementById('payment-btn');
+            const walletInfo = document.getElementById('wallet-info');
+            const signatureResult = document.getElementById('signature-result');
+            
+            // 监听钱包连接状态变化
+            tonConnectUI.onStatusChange((walletInfo) => {
+                console.log("钱包信息:", walletInfo);
+                if (walletInfo && walletInfo.account) {
+                    userAddress = walletInfo.account.address;
+                    isConnected = true;
+                    
+                    // 更新UI
+                    connectBtn.textContent = '断开连接';
+                    signBtn.style.display = 'block';
+                    paymentBtn.style.display = 'block';
+                    document.getElementById('wallet-info').style.display = 'block';
+                    document.getElementById('wallet-info').textContent = `钱包地址: ${userAddress.slice(0, 8)}...${userAddress.slice(-6)}`;
+                } else {
+                    isConnected = false;
+                    userAddress = '';
+                    
+                    // 更新UI
+                    connectBtn.textContent = '连接钱包';
+                    signBtn.style.display = 'none';
+                    paymentBtn.style.display = 'none';
+                    document.getElementById('wallet-info').style.display = 'none';
+                    signatureResult.style.display = 'none';
+                }
+            });
+            
+            // 连接/断开钱包
+            connectBtn.addEventListener('click', async () => {
+                try {
+                    if (isConnected) {
+                        await tonConnectUI.disconnect();
+                    } else {
+                        await tonConnectUI.connectWallet();
+                    }
+                } catch (error) {
+                    console.error("钱包操作失败:", error);
+                    alert("钱包操作失败: " + error.message);
+                }
+            });
+            
+            // 登录签名
+            signBtn.addEventListener('click', async () => {
+                try {
+                    // 创建随机消息用于签名
+                    const randomMessage = crypto.randomUUID ? crypto.randomUUID() : Math.random().toString(36).substring(2);
+                    
+                    // 准备签名请求
+                    const signRequest = {
+                        method: 'ton_signMessage',
+                        params: {
+                            text: `登录验证: ${randomMessage}`,
+                        }
+                    };
+                    
+                    // 发送签名请求
+                    const response = await tonConnectUI.sendRequest(signRequest);
+                    console.log("签名结果:", response);
+                    
+                    // 显示签名结果
+                    signatureResult.textContent = JSON.stringify(response, null, 2);
+                    signatureResult.style.display = 'block';
+                    
+                    alert("签名成功，已完成登录验证");
+                } catch (error) {
+                    console.error("签名失败:", error);
+                    alert("签名失败: " + error.message);
+                }
+            });
+            
+            // 发起支付
+            paymentBtn.addEventListener('click', async () => {
+                try {
+                    // 支付金额（这里以0.1 TON为例）
+                    // 使用正确的方式调用toNano函数
+                    const amount = (10**8).toString(); // 0.1 TON
+                    
+                    // 接收方地址（需替换为实际的接收地址）
+                    const receiverAddress = "EQBYrvW9Rnz5JbIgzfrkMuD5hcjFbR6L-ZzG6Yo5sIFfLSbS";
+                    
+                    // 准备转账请求
+                    const transaction = {
+                        validUntil: Math.floor(Date.now() / 1000) + 360, // 交易有效期10分钟
+                        messages: [
+                            {
+                                address: receiverAddress,
+                                amount: amount,
+                            }
+                        ]
+                    };
+                    
+                    // 发送转账请求
+                    const result = await tonConnectUI.sendTransaction(transaction);
+                    console.log("支付结果:", result);
+                    
+                    alert("支付成功");
+                } catch (error) {
+                    console.error("支付失败:", error);
+                    alert("支付失败: " + error.message);
+                }
+            });
+        });
+    </script>
+</body>
+</html> 
