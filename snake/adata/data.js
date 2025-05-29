@@ -1,10 +1,10 @@
-var v_type = 1;
+window.v_type = 1; //0=QA；1=S0; 2=SN;
 
 //服务器path
 
-var wsServer1 = "wss://wss-hall.queengame.io"; //测试环境
-var address1 = "https://snake.queengame.io"; //外网-s0-web地址 (线上测试)
 
+window.wsServer1 = "wss://wss-hall.queengame.io"; //测试环境
+window.address1 = "https://snake.queengame.io"; //外网-s0-web地址 (线上测试)
 
 var nodeData = [
 
