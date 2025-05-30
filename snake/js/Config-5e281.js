@@ -4,9 +4,9 @@
  * @Author: hjy
  * @Date: 2025-04-22 14:02:12
  * @LastEditors: hjy
- * @LastEditTime: 2025-05-30 19:32:46
+ * @LastEditTime: 2025-05-30 20:45:12
  */
-var game_version = "V_0530_02";
+var game_version = "V_0530_03";
 
 function getGameVersion() {
     return game_version;
