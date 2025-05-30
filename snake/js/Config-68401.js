@@ -4,9 +4,9 @@
  * @Author: hjy
  * @Date: 2025-04-22 14:02:12
  * @LastEditors: hjy
- * @LastEditTime: 2025-05-29 14:46:51
+ * @LastEditTime: 2025-05-30 19:32:46
  */
-var game_version = "V_0529_02";
+var game_version = "V_0530_02";
 
 function getGameVersion() {
     return game_version;
@@ -35,15 +35,6 @@ function getWSServer() {
     }
 }
 
-function getVAddress() {
-    if (v_type == 2) {
-        return window.address2;
-    } else if (v_type == 1) {
-        return window.address1;
-    } else {
-        return window.address1;
-    }
-}
 function getNodeData() {
     return nodeData;
 }
