@@ -4,52 +4,37 @@
  * @Author: hjy
  * @Date: 2025-04-22 14:02:12
  * @LastEditors: hjy
-<<<<<<<< HEAD:snake/js/Config-1bbac.js
- * @LastEditTime: 2025-05-28 22:14:23
- */
-var game_version = "V_0528_04";
-========
  * @LastEditTime: 2025-05-30 20:45:12
  */
 var game_version = "V_0530_03";
->>>>>>>> b71c5c9e4828c2133e8c9cd729ec1417a5b3358b:snake/js/Config-5e281.js
 
 function getGameVersion() {
     return game_version;
 }
 
 function getVType() {
-    return v_type;
+    return window.v_type;
 }
 
 function getServer() {
     if (v_type == 2) {
-        return server2;
+        return window.server2;
     } else if (v_type == 1) {
-        return server1;
+        return window.server1;
     } else {
-        return server0;
+        return window.server0;
     }
 }
 function getWSServer() {
-    if (v_type == 2) {
-        return wsServer2;
-    } else if (v_type == 1) {
-        return wsServer1;
+    if (getVType() == 2) {
+        return window.wsServer2;
+    } else if (getVType() == 1) {
+        return window.wsServer1;
     } else {
-        return wsServer0;
+        return window.wsServer0;
     }
 }
 
-function getVAddress() {
-    if (v_type == 2) {
-        return address2;
-    } else if (v_type == 1) {
-        return address1;
-    } else {
-        return address1;
-    }
-}
 function getNodeData() {
     return nodeData;
 }
