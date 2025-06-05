@@ -4,6 +4,7 @@ window.v_type = 2;
 window.server2 = "https://sso.cryptoarena.io"; //正式环境
 window.wsServer2 = "wss://wss-hall-1.cryptoarena.io"; //正式环境
 
+
 var nodeData = [    
     {
         area: 1010,
