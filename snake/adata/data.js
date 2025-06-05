@@ -1,44 +1,98 @@
-var v_type = 1;
+window.v_type = 2;
 
 //服务器path
+window.server2 = "https://sso.cryptoarena.io"; //正式环境
+window.wsServer2 = "wss://wss-hall-1.cryptoarena.io"; //正式环境
 
-var wsServer1 = "wss://wss-hall.queengame.io"; //测试环境
-var address1 = "https://snake.queengame.io"; //外网-s0-web地址 (线上测试)
-
-
-var nodeData = [
-
+var nodeData = [    
     {
-        id: 1001,
-        socketUrl: "wss://wss-room-sg.queengame.io",
-        serverUrl: "wss://wss-hall.queengame.io",
-        open: 1,
         area: 1010,
+        open: 1,
+        point: "1_00",
+        id: 2001,
         name: 1010,
-        url: "https://wss-room-sg.queengame.io/ping",
-        type: 1,
-        point: "1_00"
+        socketUrl: "wss://wss-room-sg-01.cryptoarena.io",
+        url: "https://wss-room-sg-01.cryptoarena.io/ping",
+        type: 2
     },
     {
-        id: 1002,
-        socketUrl: "wss://wss-room-us.queengame.io",
-        serverUrl: "wss://wss-hall.queengame.io",
-        open: 0,
-        area: 1016,
-        name: 1016,
-        url: "https://wss-room-us.queengame.io/ping",
-        type: 1,
-        point: "2_00"
+        area: 1011,
+        open: 1,
+        point: "1_00",
+        id: 2002,
+        name: 1011,
+        socketUrl: "wss://wss-room-camb-01.cryptoarena.io",
+        url: "https://wss-room-camb-01.cryptoarena.io/ping",
+        type: 2
     },
     {
-        id: 1003,
-        socketUrl: "wss://wss-room-jp.queengame.io",
-        serverUrl: "wss://wss-hall.queengame.io",
-        open: 0,
         area: 1018,
+        open: 1,
+        point: "1_00",
+        id: 2003,
         name: 1018,
-        url: "https://wss-room-jp.queengame.io/ping",
-        type: 1,
-        point: "3_00"
+        socketUrl: "wss://wss-room-jp-01.cryptoarena.io",
+        url: "https://wss-room-jp-01.cryptoarena.io/ping",
+        type: 2
+    },
+    {
+        area: 1013,
+        open: 1,
+        point: "1_00",
+        id: 2004,
+        name: 1013,
+        socketUrl: "wss://wss-room-kr-01.cryptoarena.io",
+        url: "https://wss-room-kr-01.cryptoarena.io/ping",
+        type: 2
+    },
+    {
+        area: 1019,
+        open: 1,
+        point: "1_00",
+        id: 2005,
+        name: 1019,
+        socketUrl: "wss://wss-room-fr-01.cryptoarena.io",
+        url: "https://wss-room-fr-01.cryptoarena.io/ping",
+        type: 2
+    },
+    {
+        area: 1020,
+        open: 1,
+        point: "1_00",
+        id: 2006,
+        name: 1020,
+        socketUrl: "wss://wss-room-india-01.cryptoarena.io",
+        url: "https://wss-room-india-01.cryptoarena.io/ping",
+        type: 2
+    },
+    {
+        area: 1002,
+        open: 1,
+        point: "1_00",
+        id: 2007,
+        name: 1002,
+        socketUrl: "wss://wss-room-thai-01.cryptoarena.io",
+        url: "https://wss-room-thai-01.cryptoarena.io/ping",
+        type: 2
+    },
+    {
+        area: 1008,
+        open: 1,
+        point: "1_00",
+        id: 2008,
+        name: 1008,
+        socketUrl: "wss://wss-room-mala-01.cryptoarena.io",
+        url: "https://wss-room-mala-01.cryptoarena.io/ping",
+        type: 2
+    },
+    {
+        area: 1017,
+        open: 1,
+        point: "1_00",
+        id: 2009,
+        name: 1017,
+        socketUrl: "wss://wss-room-uae-01.cryptoarena.io",
+        url: "https://wss-room-uae-01.cryptoarena.io/ping",
+        type: 2
     }
 ];
