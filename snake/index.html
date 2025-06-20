@@ -15,12 +15,14 @@
     <meta http-equiv='expires' content='0' />
     <meta http-equiv='Cache-Control' content='no-siteapp' />
     <link rel="icon" href="favicon.ico">
-    <link rel="stylesheet" href="https://unpkg.com/@tonconnect/ui@latest/dist/tonconnect-ui.min.css">
-    <!-- 引入TON Connect相关脚本 -->
-    <script type="text/javascript" src="https://unpkg.com/@tonconnect/ui@latest/dist/tonconnect-ui.min.js"></script>
-    <script type="text/javascript" src="https://unpkg.com/ton-core@latest/dist/index.min.js"></script>
-    <script type="text/javascript" src="https://unpkg.com/@tonconnect/sdk@0.0.34/dist/tonconnect-sdk.min.js"></script>
-    
+    <!-- <script src="js/buffer.js"></script> -->
+    <!-- <script src="https://cdn.jsdelivr.net/npm/buffer@6.0.3/index.min.js"></script>
+    <script>
+        window.Buffer = Buffer; // 暴露为全局变量
+        console.log(window.Buffer);
+    </script> -->
+    <!-- <link rel="stylesheet" href="https://unpkg.com/@tonconnect/ui@latest/dist/tonconnect-ui.min.css"> -->
+    <!-- <script src="https://telegram.org/js/telegram-web-app.js"></script> -->
 </head>
 
 <body style="margin: 0;background: linear-gradient(to bottom, #133570, #1179b5);color: #fff;">
@@ -31,16 +33,11 @@
             height: 100%;
             width: 100%;
             z-index: 99999999;
-            transition: opacity ease-in-out 300ms;  
+            transition: opacity ease-in-out 300ms;
             transform-origin: left top;
 
-            background-color: {
-                    {
-                    splashBgColor
-                }
-            }
+            background-color: #000000;
 
-            ;
         }
 
         .splash-image {
@@ -49,7 +46,7 @@
             width: 100%;
             background-repeat: no-repeat;
             background-position: 50% 40%;
-            background-image: url('splash.png');
+            /* background-image: url('splash.png'); */
 
             background-size: {
                     {
@@ -70,26 +67,45 @@
             text-shadow: 1px 1px 2px rgb(0, 0, 0);
             font-size: 16px;
         }
+        .logo {
+            /* display: block;
+            width: 220px; */
+            /* height: 200px; */
+            /* position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%); */
+
+            display: block;
+            width: 30%;
+            /* min-width: 150px;
+            max-width: 300px; */
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+        }
 
         .btn-copy {
             display: none;
         }
     </style>
+    <script src="adata/data.js?v=15"></script>
     <!-- <script src='js/config/Config.js' loader='Config'></script> -->
 
     <div id="splash">
         <div class="splash-image">
+            <img src="./snakebg.png" alt="logo" class="logo">
             <!-- <div class="powered-by">
                 <p>Powered by LayaAir Engine</p>
             </div> -->
         </div>
     </div>
-    <div id="ton-connect"></div>
     <script>
         (function () {
             let splash = document.getElementById('splash');
             let sm = "horizontal";
-            let du = parseInt("100");
+            let du = parseInt("2000");
             let ss = performance.now();
 
             function fit() {
@@ -122,6 +138,7 @@
             }
 
             function hide() {
+                // return;
                 window.removeEventListener("resize", fit);
                 delete window.hideSplashScreen;
 
@@ -145,19 +162,14 @@
     </script>
     <!-- Splash screen end -->
 
-    <script type="text/javascript" src="libs/laya.core-fb2a7.js"></script>
-    <script type="text/javascript" src="libs/laya.ui-dcb9b.js"></script>
-    <script type="text/javascript" src="libs/laya.ani-d6b33.js"></script>
-    <script type="text/javascript" src="libs/laya.tiledmap-b3b8a.js"></script>
-    <script type="text/javascript" src="libs/laya.physics2D-2b854.js"></script>
-    <script type="text/javascript" src="libs/laya.box2D-522af.js"></script>
+    <script type="text/javascript" src="libs/laya.core-49773.js"></script>
+    <script type="text/javascript" src="libs/laya.ui-3489f.js"></script>
+    <script type="text/javascript" src="libs/laya.ani-b7554.js"></script>
     <script type="text/javascript" src="libs/laya.spine-7e80a.js"></script>
     <script type="text/javascript" src="libs/spine-core-3.8-85709.js"></script>
-    <script type="text/javascript" src="js/astar-bb110.js"></script>
-    <script type="text/javascript" src="js/domparserinone-6030d.js"></script>
-    <script type="text/javascript" src="js/Config-0655e.js"></script>
-    <script type="text/javascript" src="js/bundle-6fd4b.js"></script>
-    <script type="text/javascript" src="js/index-88512.js"></script>
+    <script type="text/javascript" src="js/Config-b3f9b.js"></script>
+    <script type="text/javascript" src="js/bundle-cba312.js"></script>
+    <script type="text/javascript" src="js/index-72df5.js"></script>
 
 
 
@@ -260,7 +272,7 @@
     <!-- Google tag (gtag.js) -->
     <!-- <script async src="https://www.googletagmanager.com/gtag/js?id=G-B6F62P3M2K"></script> -->
 
-    <script src="js/custom/css/tongji.js?id=1"></script>
+    <script src="js/custom/css/tongji.js?id=2"></script>
 
     <script src="js/custom/css/jquery.min.js?id=1"></script>
     <script src="js/custom/css/bootstrap.min.js?id=1"></script>
@@ -531,27 +543,8 @@
 
     <!-- <script src="https://cdn.bootcdn.net/ajax/libs/vConsole/3.3.4/vconsole.min.js"></script> -->
     <script>
-        // window.onload = function () {
-        //     initLiveChat();
-        //     if (window.Telegram && window.Telegram.WebApp) {
-        //         const webApp = window.Telegram.WebApp;
-
-        //         // Request full screen
-        //         webApp.expand();
-
-        //         // Set up initial app properties if needed
-        //         webApp.onEvent('viewportChanged', () => {
-        //             // React to viewport changes if necessary
-        //             console.log("Viewport changed to:", webApp.viewportHeight);
-        //         });
-        //     } else {
-        //         console.error("Telegram Web App API is not available.");
-        //     }
-        // }
-        // 初始化
-        // new VConsole();
     </script>
+    <div id="ton-connect" style="position: relative; z-index: 9999;"></div>
 
 </body>
-
 </html>
