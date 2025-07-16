@@ -22,7 +22,21 @@
         console.log(window.Buffer);
     </script> -->
     <!-- <link rel="stylesheet" href="https://unpkg.com/@tonconnect/ui@latest/dist/tonconnect-ui.min.css"> -->
-    <script src="./telegram-web-app.js"></script>
+    <script type="text/javascript">
+
+        // 若运营需要修改room.json，替换aTable目录下的room.json文件，并且请修改此版本号
+
+        // 0 = 读取程序中的room  （每次程序打完包，都会拉取最新的json，并且重置为0）
+        // 例如： window.v_table = 0;
+
+        // 具体版本号时，读取aTable文件夹中的room
+        // 例如： window.v_table = 25062301;
+
+        window.v_table = 0;
+
+    </script>
+
+    <!-- <script src="./telegram-web-app.js"></script> -->
     <script src="./qrcode.min.js"></script>
 </head>
 
@@ -68,6 +82,7 @@
             text-shadow: 1px 1px 2px rgb(0, 0, 0);
             font-size: 16px;
         }
+
         .logo {
             /* display: block;
             width: 220px; */
@@ -163,14 +178,14 @@
     </script>
     <!-- Splash screen end -->
 
-    <script type="text/javascript" src="libs/laya.core-fb2a7.js"></script>
-    <script type="text/javascript" src="libs/laya.ui-dcb9b.js"></script>
-    <script type="text/javascript" src="libs/laya.ani-d6b33.js"></script>
+    <script type="text/javascript" src="libs/laya.core-49773.js"></script>
+    <script type="text/javascript" src="libs/laya.ui-3489f.js"></script>
+    <script type="text/javascript" src="libs/laya.ani-b7554.js"></script>
     <script type="text/javascript" src="libs/laya.spine-7e80a.js"></script>
     <script type="text/javascript" src="libs/spine-core-3.8-85709.js"></script>
-    <script type="text/javascript" src="js/Config-4afb4.js"></script>
-    <script type="text/javascript" src="js/bundle-c5545.js"></script>
-    <script type="text/javascript" src="js/index-31505.js"></script>
+    <script type="text/javascript" src="js/Config-c7149.js"></script>
+    <script type="text/javascript" src="js/bundle-83516.js"></script>
+    <script type="text/javascript" src="js/index-e01a2.js"></script>
 
 
 
@@ -553,4 +568,5 @@
 				// 初始化
 				new VConsole();
 		</script> -->
+
 </html>
