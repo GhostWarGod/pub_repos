@@ -67004,12 +67004,17 @@ class TonConnectUI {
     return rootId;
   }
   checkButtonRootExist(buttonRootId) {
-    if (buttonRootId == null) {
+    try{
+          if (buttonRootId == null) {
       return;
     }
-    if (!document.getElementById(buttonRootId)) {
-      throw new TonConnectUIError(`${buttonRootId} element not found in the document.`);
+    // if (!document.getElementById(buttonRootId)) {
+    //   throw new TonConnectUIError(`${buttonRootId} element not found in the document.`);
+    // }
+    }catch(e){
+      console.log(`${buttonRootId} element not found in the document.`)
     }
+
   }
   getModalsAndNotificationsConfiguration(options) {
     var _a2, _b2, _c2, _d2, _e2, _f2;
