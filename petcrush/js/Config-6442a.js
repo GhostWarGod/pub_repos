@@ -4,9 +4,9 @@
  * @Author: hjy
  * @Date: 2025-04-22 14:02:12
  * @LastEditors: hjy
- * @LastEditTime: 2025-09-19 19:38:42
+ * @LastEditTime: 2025-09-24 12:13:56
  */
-var game_version = "Version 0.1.0924.03";
+var game_version = "Version 0.1.0924.3";
 
 //Buffer
 // var Buffer_1 = require("buffer");
@@ -29,7 +29,6 @@ function getServer() {
     if (v_type == 2) {
         return window.server2;
     } else if (v_type == 1) {
-        // return window.server1;
         return window.server1;
     } else {
         return window.server0;
@@ -201,7 +200,6 @@ function initEruda(lineNum) {
     script.onload = function () {
         // 初始化 eruda
         eruda.init();
-        eruda.position({ x: 20, y: 20 });
         var erudaConsole = eruda.get("console");
 
         // 创建日志存储数组
