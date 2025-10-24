@@ -1,0 +1,526 @@
+<!DOCTYPE html>
+<html lang="zh">
+
+<head>
+    <meta charset="UTF-8">
+    <title>看谁能坚持五十秒 - 优化版</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="icon" href="./favicon.ico">
+    <style type="text/tailwindcss">
+        @layer components {
+            .start-button {
+                @apply relative overflow-hidden px-8 py-4 bg-gradient-to-r from-blue-600 to-indigo-700 text-white font-bold rounded-full text-xl shadow-lg hover:shadow-xl transition-all duration-300 transform hover:scale-105;
+            }
+            .button-hover-effect {
+                @apply absolute inset-0 bg-white opacity-0 transition-opacity duration-300;
+            }
+            .start-button:hover .button-hover-effect {
+                @apply opacity-10;
+            }
+            .instruction-card {
+                @apply flex flex-col items-center justify-center p-4 bg-gray-800/50 rounded-xl backdrop-blur-sm border border-gray-700 shadow-lg hover:bg-gray-700/50 transition-all duration-300;
+            }
+            .instruction-card .icon {
+                @apply text-3xl mb-2;
+            }
+        }
+    </style>
+    <script src="https://cdn.jsdelivr.net/npm/phaser@3.60.0/dist/phaser.min.js"></script>
+    <!-- 导入web3 -->
+    <script src="https://cdn.jsdelivr.net/npm/web3@1.8.2/dist/web3.min.js"></script>
+    <!--  -->
+</head>
+
+<body class="bg-gray-900 h-screen overflow-hidden">
+    <div class="container mx-auto h-full">
+        <!-- 开始界面 -->
+        <div id="start-screen" class="flex flex-col items-center justify-center h-full p-4">
+            <div class="text-center mb-8">
+                <h1
+                    class="text-5xl font-extrabold text-transparent bg-clip-text bg-gradient-to-r from-blue-400 to-purple-600 mb-2">
+                    极限躲避挑战
+                </h1>
+                <p class="text-xl text-gray-300">看谁能坚持五十秒</p>
+            </div>
+
+            <!-- 游戏说明卡片 -->
+            <div class="grid grid-cols-2 md:grid-cols-4 gap-4 mb-12 w-full max-w-3xl">
+                <div class="instruction-card">
+                    <div class="icon">🖱️</div>
+                    <p class="text-gray-200 text-center">拖动黑色方块</p>
+                </div>
+                <div class="instruction-card">
+                    <div class="icon">🚫</div>
+                    <p class="text-gray-200 text-center">躲避蓝色障碍物</p>
+                </div>
+                <div class="instruction-card">
+                    <div class="icon">⏱️</div>
+                    <p class="text-gray-200 text-center">时间越长难度越高</p>
+                </div>
+                <div class="instruction-card">
+                    <div class="icon">💥</div>
+                    <p class="text-gray-200 text-center">碰到边界或障碍物游戏结束</p>
+                </div>
+            </div>
+
+            <!-- 操作按钮 -->
+            <div class="flex flex-col items-center gap-6">
+                <button id="start-button" class="start-button">
+                    <span>开始挑战</span>
+                    <div class="button-hover-effect"></div>
+                </button>
+                <div class="text-gray-300 text-lg">
+                    最高纪录: <span id="high-score-value" class="text-yellow-400 font-bold">0</span>秒
+                </div>
+            </div>
+
+            <!-- 背景装饰元素 -->
+            <div class="absolute -z-10 w-full h-full overflow-hidden">
+                <div class="absolute top-1/4 left-1/4 w-32 h-32 rounded-full bg-blue-600/20 blur-xl"></div>
+                <div class="absolute top-1/3 right-1/4 w-40 h-40 rounded-full bg-purple-600/20 blur-xl"></div>
+                <div class="absolute bottom-1/4 left-1/3 w-48 h-48 rounded-full bg-indigo-600/20 blur-xl"></div>
+            </div>
+        </div>
+
+        <!-- 游戏容器 -->
+        <div id="game-container" class="hidden h-full flex items-center justify-center">
+
+        </div>
+
+    </div>
+    <script>
+        const socketManager = {
+            ws: null,
+            retryCount: 0,
+            maxRetries: 5,          // 最大重试次数
+            retryInterval: 3000,    // 重试间隔(ms)
+            timeoutDuration: 5000,  // 连接超时(ms)
+            heartbeatInterval: 25000, // 心跳间隔(ms)
+            isManualClose: false,   // 是否手动关闭
+            heartbeatTimer: null,
+            timeoutTimer: null,
+            // 初始化连接
+            connect() {
+                this.isManualClose = false;
+                this.ws = new WebSocket('wss://wss-hall-1.cryptoarena.io');
+                // 超时检测
+                this.timeoutTimer = setTimeout(() => {
+                    if (this.ws?.readyState !== WebSocket.OPEN) {
+                        console.error('连接超时，强制关闭');
+                        this.ws?.close();
+                    }
+                }, this.timeoutDuration);
+                // 事件监听
+                this.ws.onopen = () => {
+                    clearTimeout(this.timeoutTimer);
+                    this.retryCount = 0;
+                    console.log('WebSocket 连接成功');
+                    this.startHeartbeat();
+                };
+                this.ws.onmessage = (event) => {
+                    console.log('收到消息:', event.data);
+                    // 业务逻辑处理...
+                };
+                this.ws.onerror = (error) => {
+                    console.error('连接错误:', error);
+                };
+                this.ws.onclose = () => {
+                    if (!this.isManualClose) {
+                        this.handleReconnect();
+                    }
+                };
+            },
+            // 处理自动重连
+            handleReconnect() {
+                clearTimeout(this.timeoutTimer);
+                this.stopHeartbeat();
+                if (this.retryCount < this.maxRetries) {
+                    this.retryCount++;
+                    console.log(`第 ${this.retryCount} 次重连中...`);
+                    setTimeout(() => this.connect(), this.retryInterval);
+                } else {
+                    console.error('已达最大重试次数，停止自动连接');
+                }
+            },
+            // 心跳保活
+            startHeartbeat() {
+                this.heartbeatTimer = setInterval(() => {
+                    if (this.ws?.readyState === WebSocket.OPEN) {
+                        this.ws.send(JSON.stringify({ type: 'ping' }));
+                    }
+                }, this.heartbeatInterval);
+            },
+            // 停止心跳
+            stopHeartbeat() {
+                clearInterval(this.heartbeatTimer);
+            },
+            // 安全关闭（不触发自动重连）
+            close() {
+                this.isManualClose = true;
+                this.retryCount = this.maxRetries; // 阻止重连
+                this.ws?.close();
+            },
+            // 发送消息
+            send(data) {
+                if (this.ws?.readyState === WebSocket.OPEN) {
+                    this.ws.send(JSON.stringify(data));
+                } else {
+                    console.error('消息发送失败：连接未就绪');
+                }
+            }
+        };
+
+        document.addEventListener('DOMContentLoaded', function () {
+            socketManager.connect();
+            // 启动场景
+            class BootScene extends Phaser.Scene {
+                constructor() {
+                    super({ key: 'Boot' });
+                }
+                preload() {
+                    // 加载加载动画
+                    this.load.image('loading', 'assets/preloader.gif');
+                }
+                create() {
+                    this.scene.start('Loader');
+                }
+            }
+            
+            // 加载场景
+            class LoaderScene extends Phaser.Scene {
+                constructor() {
+                    super({ key: 'Loader' });
+                }
+                preload() {
+                    // 加载进度显示
+                    const loading = this.add.image(this.cameras.main.centerX, this.cameras.main.centerY, 'loading');
+                    loading.setOrigin(0.5);
+                    const progressText = this.add.text(
+                        this.cameras.main.centerX,
+                        this.cameras.main.centerY + 30,
+                        '0%',
+                        {
+                            fill: '#fff',
+                            fontSize: '16px',
+                            fontStyle: 'bold'
+                        }
+                    ).setOrigin(0.5);
+                    this.load.on('progress', (progress) => {
+                        progressText.setText(Math.round(progress * 100) + '%');
+                    });
+                    this.load.on('loaderror', () => {
+                        console.error('资源加载失败');
+                    });
+                    // 加载游戏资源
+                    this.load.image('background', 'assets/background.png');
+                    this.load.image('around_h', 'assets/around_h.png');
+                    this.load.image('around_v', 'assets/around_v.png');
+                    this.load.image('enemy', 'assets/enemy.png');
+                    this.load.image('player', 'assets/player.png');
+                    this.load.image('logo', 'assets/logo.png');
+                    this.load.image('button', 'assets/restart.png');
+                }
+                create() {
+                    this.scene.start('Main');
+                }
+            }
+            // 主游戏场景
+            class MainScene extends Phaser.Scene {
+                constructor() {
+                    super({ key: 'Main' });
+                    this.enemies = [];
+                    this.speedIncrementInterval = 5000; // 5秒增加一次难度
+                    this.lastSpeedIncrease = 0;
+                    this.gameTime = 0;
+                }
+                create() {
+                    // 初始化游戏状态
+                    this.initGame();
+
+                    // 创建游戏元素
+                    this.createBackground();
+                    this.createPlayer();
+                    this.createEnemies();
+                    this.createBounds();
+                    this.createTimer();
+
+                    // 设置交互和碰撞
+                    this.setupDrag();
+                    this.setupCollisions();
+
+                    // 音频设置
+                    this.sound.pauseOnBlur = false;
+                }
+                initGame() {
+                    this.gameTime = 0;
+                    this.lastSpeedIncrease = 0;
+                    this.enemies = [];
+                    this.difficultyLevel = 1;
+                }
+                createBackground() {
+                    this.add.image(0, 0, 'background').setOrigin(0);
+                }
+                createPlayer() {
+                    this.player = this.physics.add.sprite(
+                        this.cameras.main.centerX,
+                        this.cameras.main.centerY,
+                        'player'
+                    ).setScale(0.7)
+                        .setOrigin(0.5)
+                        .setInteractive()
+                        .setCollideWorldBounds(true)
+                        .setTint(0x2384e7);
+                }
+                createEnemies() {
+                    this.enemiesGroup = this.physics.add.group();
+
+                    // 创建4个敌人，位置和大小不同
+                    this.addEnemy(75, 35, 1, 1);
+                    this.addEnemy(0, 50, 2, 1);
+                    this.addEnemy(80, 330, 1, 2);
+                    this.addEnemy(400, 300, 1.5, 1.5);
+                }
+                addEnemy(x, y, scaleX, scaleY) {
+                    const enemy = this.enemiesGroup.create(x, y, 'enemy')
+                        .setScale(scaleX, scaleY)
+                        .setData('speedX', 3 * this.difficultyLevel)
+                        .setData('speedY', 3 * this.difficultyLevel);
+
+                    // 特殊处理长条形敌人位置
+                    if (scaleX === 2 && scaleY === 1) {
+                        enemy.setX(this.cameras.main.width - enemy.displayWidth - 50);
+                    }
+
+                    this.enemies.push(enemy);
+                }
+                createBounds() {
+                    this.bounds = this.physics.add.group();
+                    this.bounds.create(0, 0, 'around_h').setOrigin(0);
+                    this.bounds.create(this.cameras.main.width - 30, 0, 'around_h').setOrigin(0);
+                    this.bounds.create(0, 0, 'around_v').setOrigin(0);
+                    this.bounds.create(0, this.cameras.main.height - 30, 'around_v').setOrigin(0);
+                }
+                createTimer() {
+                    this.timeText = this.add.text(
+                        this.cameras.main.centerX,
+                        20,
+                        '0.000s',
+                        {
+                            fill: '#fff',
+                            fontSize: '24px',
+                            fontStyle: 'bold',
+                            stroke: '#000',
+                            strokeThickness: 3
+                        }
+                    ).setOrigin(0.5);
+                }
+                setupDrag() {
+                    this.input.setDraggable(this.player);
+                    this.input.on('drag', (pointer, gameObject, dragX, dragY) => {
+                        gameObject.setPosition(dragX, dragY);
+                    });
+                }
+                setupCollisions() {
+                    this.physics.add.overlap(this.player, this.bounds, () => this.gameOver());
+                    this.physics.add.overlap(this.player, this.enemiesGroup, () => this.gameOver());
+                }
+                update(time, delta) {
+                    // 更新游戏时间（毫秒转换为秒）
+                    this.gameTime += delta;
+                    const elapsedSeconds = this.gameTime / 1000;
+
+                    // 更新时间显示
+                    this.timeText.setText(elapsedSeconds.toFixed(3) + 's');
+
+                    // 定期增加难度
+                    if (this.gameTime - this.lastSpeedIncrease > this.speedIncrementInterval) {
+                        this.increaseDifficulty();
+                        this.lastSpeedIncrease = this.gameTime;
+                    }
+
+                    // 移动敌人
+                    this.moveEnemies();
+                }
+                increaseDifficulty() {
+                    this.difficultyLevel += 0.2;
+
+                    // 更新所有敌人速度
+                    this.enemies.forEach(enemy => {
+                        enemy.setData('speedX', 3 * this.difficultyLevel);
+                        enemy.setData('speedY', 3 * this.difficultyLevel);
+                    });
+
+                    // 显示难度提升提示
+                    this.showDifficultyText();
+                }
+                showDifficultyText() {
+                    const text = this.add.text(
+                        this.cameras.main.centerX,
+                        this.cameras.main.centerY,
+                        '难度提升!',
+                        {
+                            fill: '#ff0000',
+                            fontSize: '32px',
+                            fontStyle: 'bold'
+                        }
+                    ).setOrigin(0.5)
+                        .setAlpha(0);
+
+                    this.tweens.add({
+                        targets: text,
+                        alpha: 1,
+                        y: text.y - 50,
+                        duration: 1000,
+                        ease: 'Power2',
+                        yoyo: true,
+                        onComplete: () => text.destroy()
+                    });
+                }
+                moveEnemies() {
+                    this.enemies.forEach(enemy => {
+                        let speedX = enemy.getData('speedX');
+                        let speedY = enemy.getData('speedY');
+
+                        // 边界检测
+                        if (enemy.x <= 30) speedX = Math.abs(speedX);
+                        if (enemy.y <= 30) speedY = Math.abs(speedY);
+                        if (enemy.x > this.cameras.main.width - 30 - enemy.displayWidth) speedX = -Math.abs(speedX);
+                        if (enemy.y > this.cameras.main.height - 30 - enemy.displayHeight) speedY = -Math.abs(speedY);
+
+                        // 更新速度和位置
+                        enemy.setData('speedX', speedX);
+                        enemy.setData('speedY', speedY);
+                        enemy.setX(enemy.x + speedX);
+                        enemy.setY(enemy.y + speedY);
+                    });
+                }
+                gameOver() {
+                    // 游戏结束效果
+                    this.cameras.main.flash(300, 255, 0, 0);
+                    this.cameras.main.shake(300, 0.02);
+
+                    // 保存最高分
+                    const elapsedSeconds = this.gameTime / 1000;
+                    const highScore = Math.max(elapsedSeconds, parseFloat(localStorage.getItem('highScore') || 0));
+                    localStorage.setItem('highScore', highScore.toString());
+                    document.getElementById('high-score-value').textContent = highScore.toFixed(3);
+
+                    // 延迟切换到结束场景
+                    this.time.delayedCall(500, () => {
+                        this.scene.start('TheEnd', {
+                            time: elapsedSeconds,
+                            difficulty: this.difficultyLevel
+                        });
+                    });
+                }
+            }
+            // 游戏结束场景
+            class TheEndScene extends Phaser.Scene {
+                constructor() {
+                    super({ key: 'TheEnd' });
+                }
+                create(data) {
+                    // 背景遮罩
+                    this.add.rectangle(0, 0, this.cameras.main.width, this.cameras.main.height, 0x000000, 0.7)
+                        .setOrigin(0);
+
+                    // 显示游戏结果
+                    this.showResult(data.time, data.difficulty);
+
+                    // 添加重新开始按钮
+                    this.addRestartButton();
+                }
+                showResult(time, difficulty) {
+                    // 显示坚持时间
+                    const timeText = this.add.text(
+                        this.cameras.main.centerX,
+                        this.cameras.main.centerY - 80,
+                        `你坚持了 ${time.toFixed(3)}秒`,
+                        {
+                            fill: '#fff',
+                            fontSize: '32px',
+                            fontStyle: 'bold'
+                        }
+                    ).setOrigin(0.5);
+
+                    // 根据成绩显示不同评价
+                    let comment = '';
+                    if (time < 10) comment = '再接再厉!';
+                    else if (time < 30) comment = '不错的表现!';
+                    else if (time < 50) comment = '非常厉害!';
+                    else comment = '你是大师级玩家!';
+
+                    this.add.text(
+                        this.cameras.main.centerX,
+                        this.cameras.main.centerY - 30,
+                        comment,
+                        {
+                            fill: '#23e7a9',
+                            fontSize: '24px',
+                            fontStyle: 'bold'
+                        }
+                    ).setOrigin(0.5);
+                }
+                addRestartButton() {
+                    // 重新开始按钮
+                    const button = this.add.image(
+                        this.cameras.main.centerX,
+                        this.cameras.main.centerY + 50,
+                        'button'
+                    ).setOrigin(0.5)
+                        .setInteractive()
+                        .setScale(0.8);
+
+                    // 按钮动画
+                    this.tweens.add({
+                        targets: button,
+                        scaleX: 0.85,
+                        scaleY: 0.85,
+                        duration: 1000,
+                        yoyo: true,
+                        repeat: -1
+                    });
+
+                    // 点击重新开始游戏
+                    button.on('pointerdown', () => {
+                        this.scene.start('Main');
+                    });
+                }
+            }
+
+            // 游戏配置
+            const config = {
+                type: Phaser.AUTO,
+                width: 750,
+                height: 1334,
+                parent: 'game-container',
+                backgroundColor: '#2384e7',
+                scene: [BootScene, LoaderScene, MainScene, TheEndScene],
+                physics: {
+                    default: 'arcade',
+                    arcade: {
+                        debug: false,
+                        gravity: { y: 0 }
+                    }
+                }
+            };
+
+            // 加载最高分
+            const highScore = parseFloat(localStorage.getItem('highScore') || 0);
+            document.getElementById('high-score-value').textContent = highScore.toFixed(3);
+
+            // 游戏实例
+            let gameInstance = null;
+            document.getElementById('start-button').addEventListener('click', () => {
+                if (!gameInstance) {
+                    gameInstance = new Phaser.Game(config);
+                    document.getElementById('start-screen').classList.add('hidden');
+                    document.getElementById('game-container').classList.remove('hidden');
+                }
+            });
+        });
+    </script>
+</body>
+
+</html>
