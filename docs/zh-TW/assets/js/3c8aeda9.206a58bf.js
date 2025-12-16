@@ -1,0 +1,1 @@
+"use strict";(self.webpackChunkCryptoArena=self.webpackChunkCryptoArena||[]).push([[417],{8044:a=>{a.exports=JSON.parse('{"tags":[{"label":"\u904a\u6232","permalink":"/zh-TW/tags/\u904a\u6232","count":1},{"label":"Gameplay","permalink":"/zh-TW/tags/gameplay","count":1},{"label":"CryptoArena","permalink":"/zh-TW/tags/crypto-arena","count":1}]}')}}]);
